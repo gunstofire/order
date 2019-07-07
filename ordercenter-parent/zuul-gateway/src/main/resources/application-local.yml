@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: zuul-server
+  http: 
+    encoding:
+      charset: UTF-8
+  cloud: 
+    loadbalancer: 
+      retry: 
+        enabled: true
+  
+  
+server:
+  port: 8899
+
+
+# ===================================================================
+# 服务发现
+# ===================================================================    
+eureka: 
+  instance: 
+    prefer-ip-address: true
+    instanceId: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+    lease-expiration-duration-in-seconds: 15  #超时时间,默认为90秒,该值至少应该大于leaseRenewalIntervalInSeconds
+    lease-renewal-interval-in-seconds: 5      #eureka client发送心跳给server端的频率,默认30秒
+  client: 
+    register-with-eureka: true
+    registryFetchIntervalSeconds: 5       #取服务注册信息间隔，默认为30秒
+    #指定服务注册中心的地址,高可用集群时指向其他的eureka服务相互注册，多个用","分割
+    serviceUrl: 
+      defaultZone: http://localhost:8761/eureka/, http://localhost:8762/eureka/
+
+zuul:
+  routes:
+    #/api-provider/ 开头匹配到demo-provider
+    api-provider:
+      path: /provider/**
+      serviceId: provider-service
+      #/api-provider/ 开头匹配到demo-provider
+    api-consumer:
+      path: /consumer/**
+      serviceId: demo-consumer
+    #匹配/github/直接重定向到https://github.com/
+    #github:
+      #path: /github/**
+      #url: https://github.com/
+
+#ribbon全局配置(RibbonRoutingFilter时生效)
+#ribbonTimeout = (2000 + 2000) * (0 + 1) * (1 + 1) = 8000
+ribbon:
+  ReadTimeout: 2000
+  ConnectTimeout: 2000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+
+#Hystrix启用超时时间
+hystrix: 
+  command: 
+    default: 
+      execution: 
+        timeout: 
+          enabled: true
+        #Hystrix断路器的超时时间，默认是1s，断路器的超时时间需要大于ribbon的超时时间，不然不会触发重试。
+        isolation: 
+          thread: 
+            timeoutInMilliseconds: 10000
+# ===================================================================
+# 日志配置
+# ===================================================================      
+logging: 
+  config: classpath:cust-logback.xml
+  path: /opt/logs
