@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kj.order.mapper.OrderMapper">
+
+	<select id="list" resultType="com.kj.order.entiry.Order">
+		select id,orderNum as orderNumber,createTm as createTime,orderDesc as orderDescription from ordertest
+	</select>
+	
+	<!-- <insert id="insertOrder" parameterType="com.kj.demo.service.entity.Order" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		insert into ordertest(orderNum,createTm,orderDesc) values(#{orderNum},now(),#{orderDesc})
+	</insert> -->
+	<!-- 
+	<update id="updateOrderById" parameterType="com.kj.ordercenter.demo.provider.entity.TestOrder">
+		update ordertest t set t.orderDesc=#{orderDesc}
+		where t.id=#{id}
+	</update>
+	
+	<delete id="deleteOrderById">
+		delete from ordertest where id=#{id}
+	</delete> -->
+</mapper>

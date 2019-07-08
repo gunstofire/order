@@ -12,6 +12,7 @@
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <swagger.boot.version>1.7.0.RELEASE</swagger.boot.version>
   </properties>
   <dependencies>
   <dependency>
@@ -31,6 +32,12 @@
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
     </dependency>
+    <!-- 网关统一 swagger-->
+    <dependency>
+			<groupId>com.spring4all</groupId>
+			<artifactId>swagger-spring-boot-starter</artifactId>
+			<version>${swagger.boot.version}</version>
+		</dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

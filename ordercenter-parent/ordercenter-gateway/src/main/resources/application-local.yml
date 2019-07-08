@@ -22,6 +22,8 @@ spring:
 #        uri: lb://USER-SERVICE
 #        predicates:
 #          - Pach=/USER-SERVICE/**
+  # 是否可通过网关访问swagger-ui.html,不配置默认为false
+  swaggerui.show: true
 
 # ===================================================================
 # 日志配置

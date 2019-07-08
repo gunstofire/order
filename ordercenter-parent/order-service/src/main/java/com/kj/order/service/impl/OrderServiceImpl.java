@@ -9,7 +9,7 @@ import com.kj.order.entiry.Order;
 import com.kj.order.mapper.OrderMapper;
 import com.kj.order.service.OrderService;
 
-//@Service
+@Service
 public class OrderServiceImpl implements OrderService{
 
 	@Autowired
