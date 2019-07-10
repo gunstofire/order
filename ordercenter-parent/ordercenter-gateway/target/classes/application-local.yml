@@ -4,27 +4,26 @@ server:
 spring:
   application:
     name: gateway-service
-  cloud:        # spring cloud gateway 路由配置方式
+  cloud:
     gateway:
-      discovery:      #是否与服务发现组件进行结合，通过 serviceId(必须设置成大写) 转发到具体的服务实例。默认为false，设为true便开启通过服务中心的自动根据 serviceId 创建路由的功能。
-        locator:      #路由访问方式：http://Gateway_HOST:Gateway_PORT/大写的serviceId/**，其中微服务应用名默认大写访问。
-          enabled: true
+      discovery: 
+        locator:
+          enabled: true #是否与服务发现组件进行结合，通过 serviceId(必须设置成大写) 转发到具体的服务实例。默认为false，设为true便开启通过服务中心的自动根据 serviceId 创建路由的功能。
+          lowerCaseServiceId: true
       routes:
-      - id: 163                     #网关路由到网易官网
-        uri: http://www.163.com/
-        predicates:
-          - Path=/163/**
-      - id: PROVIDER-SERVICE           #网关路由到订单服务order-service
-        uri: lb://PROVIDER-SERVICE
-        predicates:
-          - Path=/PROVIDER-SERVICE/**
-#      - id: USER-SERVICE            #网关路由到用户服务user-service
-#        uri: lb://USER-SERVICE
-#        predicates:
-#          - Pach=/USER-SERVICE/**
-  # 是否可通过网关访问swagger-ui.html,不配置默认为false
-  swaggerui.show: true
-
+          # demo
+        - id: provider-service
+          uri: lb://provider-service
+          predicates:
+            - Path=/provider-service/**
+          filters:
+          - SwaggerHeaderFilter
+          - StripPrefix=1  
+          # demo
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/order-service/**
 # ===================================================================
 # 日志配置
 # ===================================================================      
@@ -52,3 +51,12 @@ eureka:
     #指定服务注册中心的地址,高可用集群时指向其他的eureka服务相互注册，多个用","分割
     serviceUrl: 
       defaultZone: http://localhost:8761/eureka/,http://localhost:8762/eureka/
+      
+# 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        
+management.security.enabled: false
