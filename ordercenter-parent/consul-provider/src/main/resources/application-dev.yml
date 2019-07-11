@@ -1,0 +1,18 @@
+server:
+  port: 6402
+
+spring:
+  application:
+    name: consul-provider
+  consul: 
+    host: localhost
+    port: 8500
+    discovery: 
+      serviceName: consul-provider
+
+# ===================================================================
+# 日志配置
+# ===================================================================      
+logging: 
+  config: classpath:cust-logback.xml
+  path: /opt/logs
